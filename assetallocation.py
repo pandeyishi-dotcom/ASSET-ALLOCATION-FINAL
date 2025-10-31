@@ -1,18 +1,17 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
 
 # ---------------------------------------------------
-# CONFIGURATION
+# CONFIG
 # ---------------------------------------------------
 st.set_page_config(page_title="Smart Asset Allocator", page_icon="💹", layout="wide")
 
 st.title("💹 Smart Asset Allocation Planner")
-st.caption("Diversify wisely based on age, risk, and total investment.")
+st.caption("Diversify wisely based on your age, risk, and total investment.")
 
 # ---------------------------------------------------
-# USER INPUT
+# USER INPUTS
 # ---------------------------------------------------
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -25,7 +24,7 @@ with col3:
 st.divider()
 
 # ---------------------------------------------------
-# ASSET ALLOCATION FUNCTION
+# ALLOCATION LOGIC
 # ---------------------------------------------------
 def allocate_assets(age, risk):
     assets = [
@@ -50,7 +49,7 @@ def allocate_assets(age, risk):
     return df
 
 # ---------------------------------------------------
-# ALLOCATION + CALCULATIONS
+# DATAFRAME + CALCULATIONS
 # ---------------------------------------------------
 df = allocate_assets(age, risk)
 df["Amount (₹)"] = np.round(df["Allocation (%)"] / 100 * total_investment, 0)
@@ -69,21 +68,14 @@ df["Exp. 1Y Gain (₹)"] = np.round(df["Amount (₹)"] * df["Exp. Annual Return 
 df["Exp. 5Y Value (₹)"] = np.round(df["Amount (₹)"] * (1 + df["Exp. Annual Return (%)"] / 100) ** 5, 0)
 
 # ---------------------------------------------------
-# DISPLAY RESULTS
+# DISPLAY
 # ---------------------------------------------------
-st.subheader("📊 Recommended Allocation")
+st.subheader("📊 Recommended Asset Allocation")
 
-colA, colB = st.columns([1.3, 1])
-with colA:
-    st.dataframe(df, hide_index=True, use_container_width=True)
-with colB:
-    try:
-        fig = px.pie(df, names="Asset Class", values="Allocation (%)",
-                     title="Portfolio Allocation", hole=0.4)
-        st.plotly_chart(fig, use_container_width=True)
-    except Exception as e:
-        st.warning("Plotly visualization failed to load. Check if Plotly is properly installed.")
-        st.text(f"Error details: {e}")
+st.dataframe(df, hide_index=True, use_container_width=True)
+
+# Built-in Streamlit chart
+st.bar_chart(df.set_index("Asset Class")["Allocation (%)"])
 
 # ---------------------------------------------------
 # SUMMARY SECTION
@@ -101,4 +93,4 @@ col2.metric("Expected 5-Year Portfolio Value", f"₹{int(total_value_5y):,}")
 st.caption("Returns are illustrative and not guaranteed. Based on average historical data.")
 
 st.divider()
-st.caption("© 2025 Smart Asset Allocator | Powered by Streamlit & Plotly")
+st.caption("© 2025 Smart Asset Allocator | Powered by Streamlit")
