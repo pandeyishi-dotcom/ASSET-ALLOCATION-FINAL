@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-
 # ---------------------------------------------------
 # PAGE CONFIG
 # ---------------------------------------------------
@@ -107,15 +105,6 @@ df["Exp. 5Y Value (₹)"] = np.round(df["Amount (₹)"] * (1 + df["Exp. Annual R
 # ---------------------------------------------------
 st.subheader("📊 Recommended Asset Allocation")
 st.dataframe(df, hide_index=True, use_container_width=True)
-
-# Donut Chart
-fig, ax = plt.subplots(figsize=(5, 5))
-ax.pie(df["Allocation (%)"], labels=df["Asset Class"], startangle=90, wedgeprops={"width": 0.4})
-centre_circle = plt.Circle((0, 0), 0.6, fc="white")
-fig.gca().add_artist(centre_circle)
-ax.set_title("Portfolio Allocation Breakdown", fontsize=14, fontweight="bold", color="#035E7B")
-st.pyplot(fig)
-
 # ---------------------------------------------------
 # LOGIC FOR SELECTION + NOTES
 # ---------------------------------------------------
