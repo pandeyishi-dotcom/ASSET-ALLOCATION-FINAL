@@ -306,7 +306,7 @@ with tab[0]:
 with tab[1]:
     st.header("Visualization")
     # donut chart (matplotlib)
-    fig1, ax1 = plt.subplots(figsize=(5,5), facecolor="#071425")
+    import plotly.express as px  fig = px.pie(     df,     names="Asset Class",     values="Allocation (%)",     color_discrete_sequence=px.colors.sequential.Tealgrn,     title=f"Asset Allocation Breakdown — {profile}" ) fig.update_layout(     font=dict(color="#FFFFFF"),     plot_bgcolor='rgba(0,0,0,0)',     paper_bgcolor='rgba(0,0,0,0)' ) st.plotly_chart(fig, use_container_width=True)
     wedges, texts = ax1.pie(alloc_df["Allocation (%)"], labels=alloc_df["Asset Class"], startangle=90, wedgeprops=dict(width=0.4), textprops={'color':'w','fontsize':8})
     ax1.set_title("Allocation (donut)", color="white")
     st.pyplot(fig1, clear_figure=True)
