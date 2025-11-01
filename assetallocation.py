@@ -1,9 +1,13 @@
 # app.py
 import streamlit as st
+try:
+    import matplotlib
+    st.sidebar.success(f"Matplotlib version: {matplotlib.__version__}")
+except ImportError:
+    st.sidebar.error("Matplotlib not installed!")
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from math import floor
 
 # ---------- Page & theme ----------
 st.set_page_config(page_title="Professional Goal-Based Asset Allocator", page_icon="💼", layout="wide")
